@@ -1,0 +1,126 @@
+// Copyright (C) 2017  Intel Corporation. All rights reserved.
+// Your use of Intel Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License 
+// Subscription Agreement, the Intel Quartus Prime License Agreement,
+// the Intel FPGA IP License Agreement, or other applicable license
+// agreement, including, without limitation, that your use is for
+// the sole purpose of programming logic devices manufactured by
+// Intel and sold by Intel or its authorized distributors.  Please
+// refer to the applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "03/17/2022 11:05:29"
+                                                                                
+// Verilog Test Bench template for design : top_module
+// 
+// Simulation tool : ModelSim (Verilog)
+// 
+
+`timescale 1ns / 100 ps
+module top_module_vlg_tst();
+// constants                                           
+// general purpose registers
+// test vector input registers
+reg clk;
+reg [31:0] dataA;
+reg [31:0] dataB;
+reg [3:0] funct;
+reg [6:2] opcode;
+// wires                                               
+wire [3:0]  ALUSel;
+wire ASel;
+wire BSel;
+wire [2:0]  DataRSel;
+wire [1:0]  DataWSel;
+wire [2:0]  ImmSel;
+wire MemRW;
+wire PCSel;
+wire RegWEn;
+wire [1:0]  WBSel;
+
+// assign statements (if any)                          
+top_module i1 (
+// port map - connection between master ports and signals/registers   
+	.ALUSel(ALUSel),
+	.ASel(ASel),
+	.BSel(BSel),
+	.clk(clk),
+	.DataRSel(DataRSel),
+	.DataWSel(DataWSel),
+	.ImmSel(ImmSel),
+	.MemRW(MemRW),
+	.PCSel(PCSel),
+	.RegWEn(RegWEn),
+	.WBSel(WBSel),
+	.dataA(dataA),
+	.dataB(dataB),
+	.funct(funct),
+	.opcode(opcode)
+);
+initial                                                
+begin                                                  
+// code that executes only once                        
+// insert code here --> begin      
+	clk<=1;                    
+	   opcode<=5'b01100; funct<=4'b0000; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b1000; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0001; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0010; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0011; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0100; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0101; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b1101; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0110; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01100; funct<=4'b0111; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00000; funct<=3'b000; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00000; funct<=3'b001; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00000; funct<=3'b010; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00000; funct<=3'b100; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00000; funct<=3'b101; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b1000; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b0010; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b0011; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b1100; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b1110; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b0111; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b0001; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b0101; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00100; funct<=4'b1101; dataA<=0; dataB<=0;
+	#10 opcode<=5'b11001; funct<=3'b010; dataA<=32'b1100_0000_0000_0000_0001_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b11001; funct<=3'b010; dataA<=32'b1100_0000_1111_0000_0001_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b01000; funct<=3'b000; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01000; funct<=3'b001; dataA<=0; dataB<=0;
+	#10 opcode<=5'b01000; funct<=3'b010; dataA<=0; dataB<=0;
+  #10 opcode<=5'b11000; funct<=3'b000; dataA<=32'b1100_0000_0000_0000_0001_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b11000; funct<=3'b000; dataA<=32'b1100_0000_0000_0000_0000_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b11000; funct<=3'b001; dataA<=32'b1100_0000_1000_0000_0000_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b11000; funct<=3'b100; dataA<=32'b1100_0000_0000_0000_0000_0000_0000_1100; dataB<=32'b1100_0000_0000_0100_0000_0000_0000_1100;
+	#10 opcode<=5'b11000; funct<=3'b101; dataA<=32'b1100_0000_0000_0000_0000_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b11000; funct<=3'b110; dataA<=32'b1100_0000_0000_0000_0000_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b11000; funct<=3'b111; dataA<=32'b1100_0000_0000_0000_0000_0000_0000_1100; dataB<=32'b1100_0000_0000_0000_0000_0000_0000_1100;
+	#10 opcode<=5'b01101; funct<=4'b1111; dataA<=0; dataB<=0;
+	#10 opcode<=5'b00101; funct<=4'b1111; dataA<=0; dataB<=0;
+	#10 opcode<=5'b11011; funct<=4'b1111; dataA<=0; dataB<=0;
+	#10 $stop;                                                       
+// --> end                                             
+$display("Running testbench");                       
+end                                                    
+always                                                 
+// optional sensitivity list                           
+// @(event1 or event2 or .... eventn)                  
+begin                                                  
+// code executes for every event on sensitivity list   
+// insert code here --> begin                          
+  #5 clk<=~clk;                                                                               
+// --> end                                             
+end                                                    
+endmodule
+
