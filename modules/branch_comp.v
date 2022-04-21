@@ -16,11 +16,11 @@ module branch_comp(
   wire [9:0] Obt_temp;
   genvar i;
   generate
-    for(i=0;i<7;i=i+1)
+    for(i=0;i<8;i=i+1)
       begin:comp
         fourbits_comp fourbits_comp_i(
           .A(dataA[3+4*i:4*i]),
-          .B(dataA[3+4*i:4*i]),
+          .B(dataB[3+4*i:4*i]),
           .Ieq(1),
           .Ilt(0),
           .Ibt(0),
@@ -51,7 +51,7 @@ module branch_comp(
     .Obt(Obt_temp[9])
   );
   assign BrEq_temp=(~Obt_temp[9]&~Olt_temp[9]|Obt_temp[9]&Olt_temp[9])&(~Obt_temp[8]&~Olt_temp[8]|Obt_temp[8]&Olt_temp[8]);
-  assign BrLT_temp=~Obt_temp[9]&Olt_temp[9]|(~Obt_temp[8]&~Olt_temp[9])&(~Obt_temp[8]&Olt_temp[8]);
+  assign BrLT_temp=~Obt_temp[9]&Olt_temp[9]|(~Obt_temp[8]&~Olt_temp[8])&(~Obt_temp[8]&Olt_temp[8]);
   always @(*) begin
     if(funct[2]&funct[1])  BrUn=1;
     else BrUn=0;
