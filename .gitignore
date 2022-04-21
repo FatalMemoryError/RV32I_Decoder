@@ -1,1 +1,3 @@
-/quartus_files
+quartus_files/
+testbench/
+!/testbench/top_module.vt
