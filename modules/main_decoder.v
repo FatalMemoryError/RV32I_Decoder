@@ -9,8 +9,8 @@ module main_decoder (
         output LUI, //LUI型指令
         output AUIPC, //AUIPC型
         output JAL, //JAL指令
-        output reg [2:0] ImmSel_temp, //立即数生成模式，按照R,I,S,B,U,J递增
-        output reg [1:0] ALUOp //ALU控制码
+        output [2:0] ImmSel_temp, //立即数生成模式，按照R,I,S,B,U,J递增
+        output [1:0] ALUOp //ALU控制码
   );
   assign R=opcode[5]&opcode[4]&~opcode[2];
   assign I_L=~opcode[5]&~opcode[4];
@@ -21,6 +21,12 @@ module main_decoder (
   assign LUI=opcode[5]&opcode[4]&opcode[2];
   assign AUIPC=~opcode[5]&opcode[2];
   assign JAL=opcode[3]&opcode[2];
+  assign ALUOp[0]=R|I_C, 
+         ALUOp[1]=LUI|I_C;
+  assign ImmSel_temp[0]=S|LUI|AUIPC, 
+         ImmSel_temp[1]=B|LUI|AUIPC, 
+         ImmSel_temp[2]=JAL; 
+  /*
   always @(*) begin
   if(R) ALUOp=2'b01; //表示ALU模式与功能码有关
     else if(LUI) ALUOp=2'b10; //表示ALU模式与功能码无关，为直连B选择器
@@ -32,4 +38,5 @@ module main_decoder (
     else if(JAL) ImmSel_temp=3'b100; //立即数生成模式为J型
     else ImmSel_temp=3'b000; //立即数生成模式为I型
   end
+  */
 endmodule
