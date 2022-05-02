@@ -13,20 +13,14 @@ module sub_decoder (
       output reg [1:0] WBSel_temp //写回通用寄存器数据选择器，00代表选取内存数据，01代表选取ALU值，02代表选取PC+4值
 );
   always @(*) begin
-    case (mini_Op)
-    4'b0011: PCSel_temp=1'b1;
-    4'b1000: PCSel_temp=1'b1;
-    4'b0101: begin
-        case ({funct[2],funct[0]})
-          2'b00: PCSel_temp=BrEq;
-          2'b01: PCSel_temp=~BrEq;
-          2'b10: PCSel_temp=BrLT;
-          2'b11: PCSel_temp=~BrLT;
-          default: PCSel_temp=1'b0;
-        endcase
-      end
-    default: PCSel_temp=0;
-    endcase
+    if(~mini_Op[2]&mini_Op[1]&mini_Op[0]|mini_Op[3]) PCSel_temp=1;
+      else if(mini_Op[2]&~mini_Op[1]&mini_Op[0]) begin
+        if(~funct[2]&~funct[0]) PCSel_temp=BrEq;
+        else if(~funct[2]&funct[0]) PCSel_temp=~BrEq;
+        else if(funct[2]&~funct[0]) PCSel_temp=BrLT;
+        else if(funct[2]&funct[0]) PCSel_temp=~BrLT;
+        else PCSel_temp=0;
+      end else PCSel_temp=0;
     RegWEn_temp=mini_Op[2]&~mini_Op[1];
     ASel_temp=~mini_Op[3]&mini_Op[2]&mini_Op[0]|mini_Op[3]&~mini_Op[2];
     BSel_temp=mini_Op[3]|mini_Op[2]|mini_Op[1]|mini_Op[0];
