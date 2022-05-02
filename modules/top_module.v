@@ -16,7 +16,7 @@ module top_module (
   output [1:0] WBSel
   );
   wire R, I_L, I_C, JALR, S, B, LUI, AUIPC, JAL;
-  wire BrEq, BrLT, work;
+  wire BrEq, BrLT;
   wire [1:0] ALUOp;
   wire PCSel_temp, RegWEn_temp, ASel_temp, BSel_temp, MemRW_temp;
   wire [2:0] DataRSel_temp, ImmSel_temp;
@@ -45,10 +45,8 @@ module top_module (
             .funct(funct[2:1]),
             .dataA(dataA),
             .dataB(dataB),
-            .B(B),
             .BrEq(BrEq),
-            .BrLT(BrLT),
-            .work(work)
+            .BrLT(BrLT)
   );
   sub_decoder sub_decoder(
             .funct(funct[2:0]),
@@ -61,7 +59,6 @@ module top_module (
             .LUI(LUI),
             .AUIPC(AUIPC),
             .JAL(JAL),
-            .work(work),
             .BrEq(BrEq),
             .BrLT(BrLT),
             .PCSel_temp(PCSel_temp),

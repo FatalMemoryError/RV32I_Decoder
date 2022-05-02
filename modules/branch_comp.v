@@ -3,10 +3,8 @@ module branch_comp(
   input [2:1] funct, //功能码3的前两位
   input [31:0] dataA, //通用寄存器数据A
   input [31:0] dataB, //通用寄存器数据B 
-  input B, //主比较器结果，作为使能信号，指令类型若为B型指令则为1
-  output reg BrEq, //分支比较结果，用来控制PCSel，AB相等为1
-  output reg BrLT, //分支比较结果，用来控制PCSel，A小于B为1
-  output reg work //决定分支比较器工作状态
+  output BrEq, //分支比较结果，用来控制PCSel，AB相等为1
+  output BrLT //分支比较结果，用来控制PCSel，A小于B为1
   );
   wire BrUn;//比较数据视为无符号或有符号，1表示无符号比较，0表示有符号比较
   wire BrEq_temp;
@@ -53,6 +51,9 @@ module branch_comp(
   assign BrEq_temp=(~Obt_temp[9]&~Olt_temp[9]|Obt_temp[9]&Olt_temp[9])&(~Obt_temp[8]&~Olt_temp[8]|Obt_temp[8]&Olt_temp[8]);
   assign BrLT_temp=~Obt_temp[9]&Olt_temp[9]|(~Obt_temp[8]&~Olt_temp[8])&(~Obt_temp[8]&Olt_temp[8]);
   assign BrUn=funct[2]&funct[1];
+  assign BrLT=BrUn&BrLT_temp|~BrUn&~(dataA[31]^dataB[31])&BrLT_temp|~BrUn&dataA[31]&~dataB[31];
+  assign BrEq=BrUn&BrEq_temp|~BrUn&~(dataA[31]^dataB[31])&BrEq_temp;
+  /*
   always @(*) begin
     if(B&BrUn) begin //无符号数比较
       BrLT=BrLT_temp;
@@ -80,4 +81,5 @@ module branch_comp(
       work=0;
     end
   end
+  */
 endmodule 

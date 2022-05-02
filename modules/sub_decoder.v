@@ -9,7 +9,6 @@ module sub_decoder (
       input LUI, //LUI型指令
       input AUIPC, //AUIPC型
       input JAL, //JAL指令
-      input work, //对应分支比较器work
       input BrEq, //分支比较器设置不工作或异常时，BrEq与BrLT均为1
       input BrLT, //因此可通过判断BrEq&BrLT等于0决定对PCSel_temp进行输入
       output reg PCSel_temp, //PC写入数据选择器，1代表选取ALU值，0代表选取PC+4值
@@ -23,7 +22,7 @@ module sub_decoder (
 );
   always @(*) begin
     if(JALR|JAL) PCSel_temp=1;
-      else if(B&work) begin
+      else if(B) begin
         if(~funct[2]&~funct[0]) PCSel_temp=BrEq;
         else if(~funct[2]&funct[0]) PCSel_temp=~BrEq;
         else if(funct[2]&~funct[0]) PCSel_temp=BrLT;
