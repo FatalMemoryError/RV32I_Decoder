@@ -59,12 +59,12 @@ module branch_comp(
       BrEq=BrEq_temp;
       work=1;
     end else if(B&~BrUn) begin //有符号数比较
-      if(dataA[31]==1&&dataB[31]==0) begin
+      if(dataA[31]&~dataB[31]) begin
         BrLT=1;
         BrEq=0;
         work=1;
       end
-      else if(dataA[31]==0&&dataB[31]==1) begin
+      else if(~dataA[31]&dataB[31]) begin
         BrLT=0;
         BrEq=0;
         work=1;
