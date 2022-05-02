@@ -8,7 +8,7 @@ module branch_comp(
   output reg BrLT, //分支比较结果，用来控制PCSel，A小于B为1
   output reg work //决定分支比较器工作状态
   );
-  reg BrUn;//比较数据视为无符号或有符号，1表示无符号比较，0表示有符号比较
+  wire BrUn;//比较数据视为无符号或有符号，1表示无符号比较，0表示有符号比较
   wire BrEq_temp;
   wire BrLT_temp;
   wire [9:0] Oeq_temp;
@@ -52,9 +52,8 @@ module branch_comp(
   );
   assign BrEq_temp=(~Obt_temp[9]&~Olt_temp[9]|Obt_temp[9]&Olt_temp[9])&(~Obt_temp[8]&~Olt_temp[8]|Obt_temp[8]&Olt_temp[8]);
   assign BrLT_temp=~Obt_temp[9]&Olt_temp[9]|(~Obt_temp[8]&~Olt_temp[8])&(~Obt_temp[8]&Olt_temp[8]);
+  assign BrUn=funct[2]&funct[1];
   always @(*) begin
-    if(funct[2]&funct[1])  BrUn=1;
-    else BrUn=0;
     if(B&BrUn) begin //无符号数比较
       BrLT=BrLT_temp;
       BrEq=BrEq_temp;
