@@ -1,15 +1,6 @@
 module sub_decoder (
       input [2:0] funct,
-      input R, //R型指令
-      input I_L, //I型装载指令
-      input I_C, //I型算术指令
-      input JALR, //JALR指令
-      input S, //S型指令
-      input B, //B型指令
-      input LUI, //LUI型指令
-      input AUIPC, //AUIPC型
-      input JAL, //JAL指令
-      input work, //对应分支比较器work
+      input [3:0] mini_Op,
       input BrEq, //分支比较器设置不工作或异常时，BrEq与BrLT均为1
       input BrLT, //因此可通过判断BrEq&BrLT等于0决定对PCSel_temp进行输入
       output reg PCSel_temp, //PC写入数据选择器，1代表选取ALU值，0代表选取PC+4值
@@ -22,6 +13,41 @@ module sub_decoder (
       output reg [1:0] WBSel_temp //写回通用寄存器数据选择器，00代表选取内存数据，01代表选取ALU值，02代表选取PC+4值
 );
   always @(*) begin
+    case (mini_Op)
+    4'b0011: PCSel_temp=1'b1;
+    4'b1000: PCSel_temp=1'b1;
+    4'b0101: begin
+        case ({funct[2],funct[0]})
+          2'b00: PCSel_temp=BrEq;
+          2'b01: PCSel_temp=~BrEq;
+          2'b10: PCSel_temp=BrLT;
+          2'b11: PCSel_temp=~BrLT;
+          default: PCSel_temp=1'b0;
+        endcase
+      end
+    default: PCSel_temp=0;
+    endcase
+    RegWEn_temp=mini_Op[2]&~mini_Op[1];
+    ASel_temp=~mini_Op[3]&mini_Op[2]&mini_Op[0]|mini_Op[3]&~mini_Op[2];
+    BSel_temp=mini_Op[3]|mini_Op[2]|mini_Op[1]|mini_Op[0];
+    if(mini_Op[2]&~mini_Op[1]&~mini_Op[0]) begin
+      if(~funct[1]&~funct[0]) DataWSel_temp=2'b01; //内存写入数据生成器模式为字节
+        else if(funct[0]) DataWSel_temp=2'b11; //内存写入数据生成器模式为半字
+        else DataWSel_temp=2'b00; //内存写入数据生成器模式为字（相当于直通）
+    end else DataWSel_temp=2'b00; //内存写入数据生成器模式为字（相当于直通）
+    MemRW_temp=mini_Op[2]&~mini_Op[1]&~mini_Op[0];
+    if(~mini_Op[2]&~mini_Op[1]&mini_Op[0]) begin
+      if(~funct[2]&~funct[1]&~funct[0]) DataRSel_temp=3'b001; //内存读取数据生成器模式为字节
+        else if(~funct[2]&funct[0]) DataRSel_temp=3'b010; //内存读取数据生成器模式为半字
+        else if(funct[2]&~funct[0]) DataRSel_temp=3'b011; //内存读取数据生成器模式为无符号字节
+        else if(funct[2]&funct[0]) DataRSel_temp=3'b100; //内存读取数据生成器模式为无符号半字
+        else DataRSel_temp=3'b000; //内存读取数据生成器模式为字（相当于直通）
+    end else DataRSel_temp=3'b000; //内存读取数据生成器模式为字（相当于直通）
+    if(~mini_Op[2]&~mini_Op[1]&mini_Op[0]) WBSel_temp=2'b00;
+      else if(~mini_Op[2]&mini_Op[1]&mini_Op[0]|mini_Op[3]) WBSel_temp=2'b10;
+      else WBSel_temp=2'b01;
+  end
+    /*
     if(JALR|JAL) PCSel_temp=1;
       else if(B&work) begin
         if(~funct[2]&~funct[0]) PCSel_temp=BrEq;
@@ -50,4 +76,5 @@ module sub_decoder (
       else if(JALR|JAL) WBSel_temp=2'b10;
       else WBSel_temp=2'b01;
   end
+  */
 endmodule
