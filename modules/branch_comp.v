@@ -19,9 +19,9 @@ module branch_comp(
         fourbits_comp fourbits_comp_i(
           .A(dataA[3+4*i:4*i]),
           .B(dataB[3+4*i:4*i]),
-          .Ieq(1),
-          .Ilt(0),
-          .Ibt(0),
+          .Ieq(1'b1),
+          .Ilt(1'b0),
+          .Ibt(1'b0),
           .Oeq(Oeq_temp[i]),
           .Olt(Olt_temp[i]),
           .Obt(Obt_temp[i])
@@ -31,9 +31,9 @@ module branch_comp(
   fourbits_comp fourbits_comp_8(
     .A(Obt_temp[3:0]),
     .B(Olt_temp[3:0]),
-    .Ieq(1),
-    .Ilt(0),
-    .Ibt(0),
+    .Ieq(1'b1),
+    .Ilt(1'b0),
+    .Ibt(1'b0),
     .Oeq(Oeq_temp[8]),
     .Olt(Olt_temp[8]),
     .Obt(Obt_temp[8])
@@ -41,9 +41,9 @@ module branch_comp(
   fourbits_comp fourbits_comp_9(
     .A(Obt_temp[7:4]),
     .B(Olt_temp[7:4]),
-    .Ieq(1),
-    .Ilt(0),
-    .Ibt(0),
+    .Ieq(1'b1),
+    .Ilt(1'b0),
+    .Ibt(1'b0),
     .Oeq(Oeq_temp[9]),
     .Olt(Olt_temp[9]),
     .Obt(Obt_temp[9])

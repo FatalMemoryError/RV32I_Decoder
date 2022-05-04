@@ -9,7 +9,7 @@ module out_buffer (
   output reg [1:0] DataWSel, WBSel,
   output reg [3:0] ALUSel
   );
-always @(negedge clk) begin
+always @(posedge clk) begin
     PCSel<=PCSel_temp; RegWEn<=RegWEn_temp; ASel<=ASel_temp; BSel<=BSel_temp; MemRW<=MemRW_temp;
     DataRSel<=DataRSel_temp; ImmSel<=ImmSel_temp;
     DataWSel<=DataWSel_temp; WBSel<=WBSel_temp;
